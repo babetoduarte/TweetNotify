@@ -7,15 +7,16 @@ import sys
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
-screenname = " " #Recipient's screen name here without the @
+SCREENNAME = " " #Recipient's screen name here without the @
 
 def main(argv):
     message = str(argv[0:])
     notify_me(message)
     sys.exit(0)
 
-def notify_me(message):
-    api.send_direct_message(screen_name=screenname, text=message)
+def notify_me(message, username=SCREENNAME):
+    user = api.get_user(username)
+    api.send_direct_message(recipient_id=user.id, text=message)
 
 if __name__ == '__main__':
     try:
